@@ -10,10 +10,8 @@ Created on Fri Sep 28 19:27:33 2018
 
 import numpy as np
 import pandas as pd
-import os
 import csv
-import sys
-import re
+
 
 
 boston_train = pd.read_csv("train.csv")
@@ -32,11 +30,10 @@ np.set_printoptions(threshold=100)
 
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
-poly_reg = PolynomialFeatures(degree=10)
+poly_reg = PolynomialFeatures(degree=4)
 x_poly = poly_reg.fit_transform(X_train)
 line_reg = LinearRegression()
 line_reg.fit(x_poly,y_train)
-
 
 #predicting the result using polynomial regression
 y_pred = line_reg.predict(poly_reg.fit_transform(X_test))
@@ -46,10 +43,13 @@ y_pred = line_reg.predict(poly_reg.fit_transform(X_test))
 
 #df = pd.DataFrame(y_pred)
 #First write version to file as a whole array in a single line 
+
+
 with open("medv_submission_PLR.csv","w") as outfile:
-    writer = csv.writer(outfile)
+    writer = csv.writer(outfile,delimiter = "\n")
     row = y_pred
     writer.writerow(row)
+
     
 outfile.close()
 
